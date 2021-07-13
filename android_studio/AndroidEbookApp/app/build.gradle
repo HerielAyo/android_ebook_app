@@ -1,0 +1,67 @@
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/'}
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.9'
+    }
+}
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
+repositories {
+    maven { url 'https://maven.google.com' }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId 'com.app.androidebookapp'
+
+        manifestPlaceholders = [onesignal_app_id: "55e9667c-b86d-4acf-9eb0-039485123456",
+                                // Project number pulled from dashboard, local value is ignored.
+                                onesignal_google_project_number: "REMOTE"]
+
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 7
+        versionName "3.1.0"
+        multiDexEnabled true
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    useLibrary 'org.apache.http.legacy'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.ads.consent:consent-library:1.0.8'
+    implementation 'com.google.android.ump:user-messaging-platform:1.0.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.android.gms:play-services-ads:19.5.0'
+    implementation 'com.google.firebase:firebase-core:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
+    implementation 'com.balysv:material-ripple:1.0.2'
+    implementation 'com.onesignal:OneSignal:3.15.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
+}
+
+apply plugin: 'com.google.gms.google-services'
