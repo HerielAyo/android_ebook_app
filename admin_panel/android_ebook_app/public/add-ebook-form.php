@@ -6,9 +6,9 @@
     if(isset($_POST['submit'])) {
 
         $book_image  = time().'_'.$_FILES['book_image']['name'];
-        $pic2            = $_FILES['book_image']['tmp_name'];
-        $tpath2          = 'upload/category/'.$book_image;
-        copy($pic2, $tpath2);
+        $pic1            = $_FILES['book_image']['tmp_name'];
+        $tpath1          = 'upload/category/'.$book_image;
+        copy($pic1, $tpath1);
 
         //PDF process start here
         if($_POST['upload_type'] == 'pdf_upload') {
