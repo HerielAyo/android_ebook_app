@@ -213,6 +213,10 @@
 													<span class="badge bg-teal">PDF (UPLOAD)</span>
 												<?php } else if ($data['type'] == 'pdf_url') { ?>
 													<span class="badge bg-cyan">PDF (URL)</span>
+												<?php } else if ($data['type'] == 'epub_upload') { ?>
+													<span class="badge bg-cyan">ePub (UPLOAD)</span>
+												<?php } else if ($data['type'] == 'epub_url') { ?>
+													<span class="badge bg-cyan">ePub (URL)</span>
 												<?php } else { ?>
 													<span class="badge bg-blue">STORY</span>
 												<?php } ?>
@@ -223,6 +227,14 @@
 									                	<i class="material-icons">mode_edit</i>
 									            	</a>
 												<?php } else if ($data['type'] == 'pdf_url') { ?>
+													<a href="edit-pdf-url.php?id=<?php echo $data['book_id'];?>">
+									                	<i class="material-icons">mode_edit</i>
+									            	</a>
+												<?php } else if ($data['type'] == 'epub_url') { ?>
+													<a href="edit-pdf-url.php?id=<?php echo $data['book_id'];?>">
+									                	<i class="material-icons">mode_edit</i>
+									            	</a>
+												<?php } else if ($data['type'] == 'epub_upload') { ?>
 													<a href="edit-pdf-url.php?id=<?php echo $data['book_id'];?>">
 									                	<i class="material-icons">mode_edit</i>
 									            	</a>
