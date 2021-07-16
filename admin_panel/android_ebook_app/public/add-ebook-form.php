@@ -10,6 +10,7 @@
         $tpath2          = 'upload/category/'.$book_image;
         copy($pic2, $tpath2);
 
+        //PDF process start here
         if($_POST['upload_type'] == 'pdf_upload') {
 
             $pdf  = time().'_'.$_FILES['pdf']['name'];
@@ -17,33 +18,56 @@
             $tpath1 ='upload/pdf/'.$pdf;
             copy($pic1, $tpath1);
 
+        } else if($_POST['upload_type'] == 'epub_upload') {
+
+            $epub  = time().'_'.$_FILES['epub']['name'];
+            $pic1   = $_FILES['epub']['tmp_name'];
+            $tpath1 ='upload/epub/'.$epub;
+            copy($pic1, $tpath1);
+
         } else if ($_POST['upload_type'] == 'pdf_url') {
 
-            $pdf = $_POST['url_source'];
+            $pdf = $_POST['pdf_url_source'];
+
+        } else if ($_POST['upload_type'] == 'epub_url') {
+
+            $epub = $_POST['epub_url_source'];
 
         } else {
             $pdf = '';
+            $epub = '';
         }
 
-        $data = array(
+
+            $data = array(
             'book_name'     => $_POST['book_name'],
             'book_image'    => $book_image,
             'author'            => $_POST['author'],
             'type'              => $_POST['upload_type'],
-            'pdf_name'          => isset($pdf) ? $pdf : ''
+            'pdf_name'          => isset($pdf) ? $pdf : $epub
             );
+
+
+    
+            
+        echo $_POST['book_name'];     
+    
 
         $qry = Insert('tbl_book', $data);
 
+        //PDF process ends
         $_SESSION['msg'] = "";
-        header( "Location:add-ebook.php");
+        header( "Location:add-ebook.php");  
         exit;
-
+    
     }
+
+    echo $_POST['book_name'];
 
     $sql_category = "SELECT * FROM tbl_book ORDER BY book_id DESC";
     $category_result = mysqli_query($connect, $sql_category);
-?>
+  
+    ?>
 
 <script type="text/javascript">
 
@@ -57,15 +81,32 @@
                     $("#pdf_url").show();
                 }
 
+                if (type == "epub_url") {
+                    $("#pdf_upload").hide();
+                    $("#pdf_url").hide();
+                    $("#epub_url").show();
+                }
+
                 if (type == "pdf_upload") {
                     $("#pdf_url").hide();
+                    $("#pdf_upload").hide();
                     $("#pdf_upload").show();
+                }
+
+                if (type == "epub_upload") {
+                    $("#pdf_url").hide();
+                    $("#pdf_upload").hide();
+                    $("#epub_url").hide();
+                    $("#epub_upload").show();
                 }
 
                 if (type == "standard") {
                     $("#pdf_url").hide();
                     $("#pdf_upload").hide();
-                }                     
+                    $("#epub_url").hide();
+                    $("#epub_upload").hide();
+                }    
+
         });
 
         $( window ).load(function() {
@@ -84,6 +125,8 @@
             if (type == "standard") {
                 $("#pdf_url").hide();
                 $("#pdf_upload").hide();
+                $("#epub_url").hide();
+                $("#epub_upload").hide();
             }
 
         });
@@ -139,6 +182,9 @@
                                                 <option value="standard">Standard</option>
                                                 <option value="pdf_url">PDF (Url)</option>
                                                 <option value="pdf_upload">PDF (Upload)</option>
+
+                                                <option value="epub_url">ePub (Url)</option>
+                                                <option value="epub_upload">ePub (Upload)</option>
                                         </select>
                                     </div>                                    
 
@@ -154,10 +200,22 @@
                                         <div class="form-group col-sm-12">
                                             <div class="font-12">PDF URL *</div>
                                             <div class="form-line">
-                                                <input type="url" class="form-control" name="url_source" id="url_source" placeholder="http://www.abc.com/pdf_name.pdf" required/>
+                                                <input type="url" class="form-control" name="pdf_url_source" id="pdf_url_source" placeholder="http://www.abc.com/pdf_name.pdf" required/>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- epub url  start here-->
+                                    <div id="epub_url">
+                                        <div class="form-group col-sm-12">
+                                            <div class="font-12">ePub URL *</div>
+                                            <div class="form-line">
+                                                <input type="url" class="form-control" name="epub_url_source" id="epub_url_source" placeholder="http://www.abc.com/epub_name.epub" required/>
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- epub url  ends here-->
 
                                     <div id="pdf_upload">
                                         <div class="col-sm-6">
@@ -167,6 +225,20 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!--- epub File Upload start here here -->
+                            
+                                  <div id="epub_upload">
+                                        <div class="col-sm-6">
+                                            <div class="font-12 ex1">Upload ePub *</div>
+                                            <div class="form-group">
+                                                <input type="file" id="epub" name="epub" id="epub" class="dropify-ebup" data-max-file-size="8M" data-allowed-file-extensions="epub" required/>
+                                            </div>
+                                        </div>
+                                    </div>
+                             
+                            
+                            <!--- epub File Upload ends here -->
 
                                     <div class="col-sm-12">
                                         <button type="submit" name="submit" class="btn bg-blue waves-effect pull-right">PUBLISH</button>

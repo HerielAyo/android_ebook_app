@@ -1,11 +1,10 @@
 <?php
 
     //database configuration
-    $host       = "ls-2ecdaf3ca752beffe7326963663ab114b41ebfa3.cnzpnjlolslk.ap-south-1.rds.amazonaws.com";
+    $host       = "ls-792b9344ff5d9c02697c01268ccb68488c23d854.cbdgjqmgsybg.us-west-2.rds.amazonaws.com";
     $user       = "dbmasteruser";
-    $pass       = "android_ebook_app_2021";
-    // $database   = "android_ebook_app_db";
-    $database   = "android_ebook_app_2021";
+    $pass       = "ebook_2021";
+    $database   = "android_ebook_app";
 
     $connect = new mysqli($host, $user, $pass, $database);
 
