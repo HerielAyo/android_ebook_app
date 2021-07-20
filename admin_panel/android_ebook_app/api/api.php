@@ -1,5 +1,6 @@
 <?php
  
+ 	header("Access-Control-Allow-Origin: *");
  	include ('../includes/config.php');
  	$connect->set_charset('utf8');
 	
@@ -108,8 +109,26 @@
 		header( 'Content-Type: application/json; charset=utf-8' );
 	    echo $val = str_replace('\\/', '/', json_encode($set,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 		die();
+	}
+		else if (isset($_GET['epub_file'])){
+			$epub_file = "../upload/epub/".$_GET['epub_file'];
 
-	} else {
+			header('Content-Type: application/epub');
+			header("Content-Disposition:attachment; filename=epub.epub");
+			readfile($epub_file);
+			die();
+		}
+
+	else if (isset($_GET['pdf_file'])){
+			$pdf_file = "../upload/pdf/".$_GET['pdf_file'];
+
+			header('Content-Type: application/pdf');
+			header("Content-Disposition:attachment; filename=pdf.pdf");
+			readfile($pdf_file);
+			die();
+		}
+
+	 else {
 		header( 'Content-Type: application/json; charset=utf-8' );
 		echo "processApi - method not exist!";
 	}
